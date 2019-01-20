@@ -1,0 +1,5 @@
+[centos]
+name=CentOS $releasever - $basearch
+baseurl=ftp://ftp.cuhk.edu.hk/pub/Linux/centos/7.6.1810/os/$basearch
+enabled=1
+gpgcheck=0
