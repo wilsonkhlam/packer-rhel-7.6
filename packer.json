@@ -22,7 +22,7 @@
   		"iso_checksum_type": "md5",
   		"iso_checksum": "{{user `iso_md5`}}",
 		"http_directory": "http",
-		"ssh_wait_timeout": "20m",
+		"ssh_wait_timeout": "60m",
 		"ssh_username": "vagrant",
 		"ssh_password": "vagrant",
 		"boot_command": [
@@ -30,7 +30,8 @@
 			"vmlinuz initrd=initrd.img net.ifnames=0 biosdevname=0 ",
 			"ks=http://{{.HTTPIP}}:{{.HTTPPort}}/vbox-ks.cfg",
 			"<enter>"
-		]
+		],
+		"shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p"
 	}],
 	"provisioners": [{
 		"type": "shell",
