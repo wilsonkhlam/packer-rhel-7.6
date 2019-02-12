@@ -1,5 +1,6 @@
 # Cache objects
 packer_cache/
 output-virtualbox-iso/
+.DS_Store
 # For built boxes
 *.box
