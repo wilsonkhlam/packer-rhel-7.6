@@ -2,7 +2,9 @@
 	"variables": {
 		"vm_name": "rhel-7.6-vbox",
 		"iso_url": "{{env `ISO_URL`}}",
-		"iso_md5": "7f0eb16e287e732af4046359184cf6f7"
+		"iso_md5": "7f0eb16e287e732af4046359184cf6f7",
+		"switch_name": "",
+		"vlan_id": ""		
 	},
 	"builders": [
   	{
@@ -32,15 +34,45 @@
 			"<enter>"
 		],
 		"shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p"
+	},
+	{
+		"type": "hyperv-iso",
+		"vm_name": "{{user `vm_name`}}",
+		"disk_size": "12288",
+		"ram_size": "1024",
+		"cpu": "4",
+		"generation": 1,
+		"enable_dynamic_memory": "true",
+		"enable_secure_boot": false	,
+  		"iso_url": "{{user `iso_url`}}",
+  		"iso_checksum_type": "md5",
+  		"iso_checksum": "{{user `iso_md5`}}",
+		"http_directory": "http",
+		"ssh_timeout": "60m",
+		"ssh_port": 22,
+		"ssh_username": "root",
+		"ssh_password": "vagrant",
+		"communicator": "ssh",
+        "switch_name": "internal_vSwitch",
+		"boot_wait": "5s",
+		"floppy_files": ["http/hyperv-ks.cfg"],
+		"boot_command": [
+			"<esc><wait>",
+			"vmlinuz initrd=initrd.img net.ifnames=0 biosdevname=0 ",
+			"inst.ks=hd:fd0:/hyperv-ks.cfg",
+			"<enter>"
+		],	
+		"shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
+		"enable_dynamic_memory": "true",
+		"guest_additions_mode":"disable"
 	}],
 	"provisioners": [{
 		"type": "shell",
 		"execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
 		"scripts": [
 			"scripts/vagrant.sh",
-                        "scripts/docker.sh",
+            "scripts/docker.sh",
 			"scripts/sshd.sh",
-			"scripts/virtualbox.sh",
 			"scripts/cleanup.sh"
 		]
 	}],

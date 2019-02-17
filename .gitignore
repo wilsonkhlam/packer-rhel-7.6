@@ -1,6 +1,7 @@
 # Cache objects
 packer_cache/
 output-virtualbox-iso/
+output-hyperv-iso/
 .DS_Store
 # For built boxes
 *.box
